@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Todo Home Page'),
+      home: MyHomePage(title: 'Flutter Todo App'),
     );
   }
 }
@@ -25,14 +25,25 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+enum TodoStatus { ready, doing, done }
+
+class TodoItem extends Object {
+  final int id;
+  final String title;
+  final TodoStatus status;
+
+//  TodoItem({this.id, this.title, this.status});
+  TodoItem(this.id, this.title, this.status);
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List<TodoItem> _todoItems = [
+    new TodoItem(1, 'いっこめ', TodoStatus.ready),
+    new TodoItem(1, 'にこめ', TodoStatus.doing)
+  ];
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  // TODO: リストを取得する処理
 
   @override
   Widget build(BuildContext context) {
@@ -40,22 +51,19 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
+      body: new Scrollbar(
+        child: new ListView(
+          children: _todoItems.map((todoItem) {
+            return new ListTile(
+              title: new Text(todoItem.title),
+              trailing: new Text(todoItem.status.toString()),
+//              onTap: ,
+            );
+          }).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+//        onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
