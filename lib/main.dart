@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './model/TodoItem.dart';
+import './repository/TodoRepository.dart';
 
 void main() => runApp(MyApp());
 
@@ -27,11 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  List<TodoItem> _todoItems = [
-    new TodoItem(1, 'いっこめ', TodoStatus.ready),
-    new TodoItem(1, 'にこめ', TodoStatus.doing)
-  ];
+  TodoRepository _repository = new TodoRepository();
 
   // TODO: リストを取得する処理
 
@@ -43,7 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: new Scrollbar(
         child: new ListView(
-          children: _todoItems.map((todoItem) {
+          children: _repository.todoList.map((todoItem) {
             return new ListTile(
               title: new Text(todoItem.title),
               trailing: new Text(todoItem.status.toString()),
@@ -53,10 +50,26 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-//        onPressed: _incrementCounter,
+        onPressed: _addNewTodo,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _repository.todoList = [
+      new TodoItem(1, 'いっこめ', TodoStatus.ready),
+      new TodoItem(2, 'にこめ', TodoStatus.doing)
+    ];
+  }
+
+  void _addNewTodo() {
+    setState(() {
+      _repository.todoList.add(new TodoItem(3, 'みっつめ', TodoStatus.ready));
+    });
   }
 }
