@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './model/TodoItem.dart';
 
 void main() => runApp(MyApp());
 
@@ -23,17 +24,6 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
-}
-
-enum TodoStatus { ready, doing, done }
-
-class TodoItem extends Object {
-  final int id;
-  final String title;
-  final TodoStatus status;
-
-//  TodoItem({this.id, this.title, this.status});
-  TodoItem(this.id, this.title, this.status);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
