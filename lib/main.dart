@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import './model/TodoItem.dart';
+import './newTodoPage.dart';
 import './repository/TodoRepository.dart';
 
 void main() => runApp(MyApp());
@@ -71,5 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _repository.todoList.add(new TodoItem(3, 'みっつめ', TodoStatus.ready));
     });
+    Navigator.push(
+      context,
+      MaterialPageRoute<Null>(builder: (context) => NewTodoPage()),
+    );
   }
 }

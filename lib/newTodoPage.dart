@@ -11,5 +11,14 @@ class NewTodoPage extends StatefulWidget {
 
 class _NewTodoPageState extends State<NewTodoPage> {
   @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("新規作成"),
+      ),
+      body: Center(
+        child: TextField(),
+      ),
+    );
+  }
 }
