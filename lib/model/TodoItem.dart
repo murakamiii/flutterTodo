@@ -5,6 +5,5 @@ class TodoItem extends Object {
   final String title;
   final TodoStatus status;
 
-//  TodoItem({this.id, this.title, this.status});
   TodoItem(this.id, this.title, this.status);
 }

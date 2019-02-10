@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new ListView(
           children: _repository.todoList.map((todoItem) {
             return new ListTile(
-              title: new Text(todoItem.title),
+              title: new Text(todoItem.id.toString() + " " + todoItem.title),
               trailing: new Text(todoItem.status.toString()),
 //              onTap: ,
             );
@@ -70,9 +70,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _addNewTodo() {
-    setState(() {
-      _repository.todoList.add(new TodoItem(3, 'みっつめ', TodoStatus.ready));
-    });
     Navigator.push(
       context,
       MaterialPageRoute<Null>(builder: (context) => NewTodoPage()),
