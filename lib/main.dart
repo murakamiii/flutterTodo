@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import './model/TodoItem.dart';
+
+import './newTodoPage.dart';
 import './repository/TodoRepository.dart';
 
 void main() => runApp(MyApp());
@@ -42,9 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: new ListView(
           children: _repository.todoList.map((todoItem) {
             return new ListTile(
-              title: new Text(todoItem.title),
+              title: new Text(todoItem.id.toString() + ": " + todoItem.title),
               trailing: new Text(todoItem.status.toString()),
-//              onTap: ,
+              onTap: () => _editTodo(todoItem.id),
             );
           }).toList(),
         ),
@@ -62,14 +63,26 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
 
     _repository.todoList = [
-      new TodoItem(1, 'いっこめ', TodoStatus.ready),
-      new TodoItem(2, 'にこめ', TodoStatus.doing)
+//      new TodoItem(1, 'いっこめ', TodoStatus.ready),
+//      new TodoItem(2, 'にこめ', TodoStatus.doing)
     ];
   }
 
+  void _editTodo(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute<Null>(
+          builder: (context) =>
+              NewTodoPage(pageInfo: TodoDetailInfo(DetailPageState.edit, id))),
+    );
+  }
+
   void _addNewTodo() {
-    setState(() {
-      _repository.todoList.add(new TodoItem(3, 'みっつめ', TodoStatus.ready));
-    });
+    Navigator.push(
+      context,
+      MaterialPageRoute<Null>(
+          builder: (context) =>
+              NewTodoPage(pageInfo: TodoDetailInfo(DetailPageState.create, 0))),
+    );
   }
 }
