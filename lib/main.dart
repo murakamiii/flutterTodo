@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import './model/TodoItem.dart';
 import './newTodoPage.dart';
 import './repository/TodoRepository.dart';
 
@@ -30,6 +31,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   TodoRepository _repository = new TodoRepository();
+  TodoStatus _currentTab = TodoStatus.ready;
 
   // TODO: リストを取得する処理
 
@@ -41,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: new Scrollbar(
         child: new ListView(
-          children: _repository.todoList.map((todoItem) {
+          children: _repository.todoListByStatus(_currentTab).map((todoItem) {
             return new ListTile(
               title: new Text(todoItem.id.toString() + ": " + todoItem.title),
               trailing: new Text(todoItem.status.toString()),
@@ -55,19 +57,28 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar: BottomNavigationBar(currentIndex: 0, items: [
-        BottomNavigationBarItem(
-          icon: new Icon(Icons.sentiment_neutral),
-          title: new Text('ready'),
-        ),
-        BottomNavigationBarItem(
-          icon: new Icon(Icons.sentiment_satisfied),
-          title: new Text('doing'),
-        ),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.sentiment_very_satisfied), title: Text('done'))
-      ]),
+      bottomNavigationBar: BottomNavigationBar(
+          onTap: onTabTapped,
+          currentIndex: _currentTab.index,
+          items: [
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.sentiment_neutral),
+              title: new Text('ready'),
+            ),
+            BottomNavigationBarItem(
+              icon: new Icon(Icons.sentiment_satisfied),
+              title: new Text('doing'),
+            ),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.sentiment_very_satisfied), title: Text('done'))
+          ]),
     );
+  }
+
+  void onTabTapped(int index) {
+    setState(() {
+      _currentTab = TodoStatus.values[index];
+    });
   }
 
   @override

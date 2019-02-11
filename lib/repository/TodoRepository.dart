@@ -11,6 +11,10 @@ class TodoRepository {
         : 0;
   }
 
+  List<TodoItem> todoListByStatus(TodoStatus status) {
+    return todoList.where((item) => item.status == status).toList();
+  }
+
   void addNewItem(String title) {
     todoList.add(TodoItem(_maxId() + 1, title, TodoStatus.ready));
   }
