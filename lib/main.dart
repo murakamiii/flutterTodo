@@ -55,6 +55,18 @@ class _MyHomePageState extends State<MyHomePage> {
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: BottomNavigationBar(currentIndex: 0, items: [
+        BottomNavigationBarItem(
+          icon: new Icon(Icons.sentiment_neutral),
+          title: new Text('ready'),
+        ),
+        BottomNavigationBarItem(
+          icon: new Icon(Icons.sentiment_satisfied),
+          title: new Text('doing'),
+        ),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.sentiment_very_satisfied), title: Text('done'))
+      ]),
     );
   }
 
