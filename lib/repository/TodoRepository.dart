@@ -6,11 +6,21 @@ class TodoRepository {
   static final TodoRepository _sharedInstance = new TodoRepository._internal();
   List<TodoItem> todoList = [];
   int _maxId() {
-    return todoList.map((item) => item.id).reduce(max);
+    return todoList.length > 0
+        ? todoList.map((item) => item.id).reduce(max)
+        : 0;
   }
 
   void addNewItem(String title) {
     todoList.add(TodoItem(_maxId() + 1, title, TodoStatus.ready));
+  }
+
+  TodoItem getItemById(int id) {
+    return todoList.firstWhere((item) => item.id == id);
+  }
+
+  void editItemById(int id, String newTitle) {
+    todoList.firstWhere((item) => item.id == id).title = newTitle;
   }
 
   factory TodoRepository() {
