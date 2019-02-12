@@ -42,15 +42,26 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: new Scrollbar(
-        child: new ListView(
-          children: _repository.todoListByStatus(_currentTab).map((todoItem) {
-            return new ListTile(
-              title: new Text(todoItem.id.toString() + ": " + todoItem.title),
-              trailing: new Text(todoItem.status.toString()),
-              onTap: () => _editTodo(todoItem.id),
-            );
-          }).toList(),
-        ),
+        child: ListView.builder(
+            itemCount: _repository.todoListByStatus(_currentTab).length,
+            itemBuilder: (context, index) {
+              final todoItem = _repository.todoListByStatus(_currentTab)[index];
+              return Dismissible(
+                key: Key(todoItem.id.toString()),
+                onDismissed: (direction) {
+                  setState(() {
+                    todoItem.updateStatus();
+                  });
+                },
+                background: Container(color: Colors.red),
+                child: ListTile(
+                  title:
+                      new Text(todoItem.id.toString() + ": " + todoItem.title),
+                  trailing: new Text(todoItem.status.toString()),
+                  onTap: () => _editTodo(todoItem.id),
+                ),
+              );
+            }),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _addNewTodo,
