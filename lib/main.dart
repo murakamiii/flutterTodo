@@ -30,13 +30,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TodoRepository _repository = new TodoRepository();
+  TodoRepository _repository = TodoRepository();
   TodoStatus _currentTab = TodoStatus.ready;
-
-  // TODO: リストを取得する処理
 
   @override
   Widget build(BuildContext context) {
+//    return FutureBuilder(builder: Sc)
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -95,11 +94,13 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-
-    _repository.todoList = [
-//      new TodoItem(1, 'いっこめ', TodoStatus.ready),
-//      new TodoItem(2, 'にこめ', TodoStatus.doing)
-    ];
+    _repository.load().then((onValue) {
+      if (onValue) {
+        setState(() {
+          _repository = TodoRepository();
+        });
+      }
+    });
   }
 
   void _editTodo(int id) {
