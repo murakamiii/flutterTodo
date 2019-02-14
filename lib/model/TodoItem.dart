@@ -7,15 +7,16 @@ enum TodoStatus { ready, doing, done, clear }
 @JsonSerializable()
 class TodoItem {
   TodoItem(this.id, this.title, this.status);
+  factory TodoItem.fromJson(Map<String, dynamic> json) =>
+      _$TodoItemFromJson(json);
+
   final int id;
   String title;
   TodoStatus status;
 
   void updateStatus() {
-    this.status = TodoStatus.values[this.status.index + 1];
+    status = TodoStatus.values[status.index + 1];
   }
 
-  factory TodoItem.fromJson(Map<String, dynamic> json) =>
-      _$TodoItemFromJson(json);
   Map<String, dynamic> toJson() => _$TodoItemToJson(this);
 }

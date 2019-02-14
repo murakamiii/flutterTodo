@@ -15,13 +15,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Todo App'),
+      home: const MyHomePage(title: 'Flutter Todo App'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super(key: key);
 
   final String title;
 
@@ -40,14 +40,14 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: new Scrollbar(
+      body: Scrollbar(
         child: ListView.builder(
             itemCount: _repository.todoListByStatus(_currentTab).length,
-            itemBuilder: (context, index) {
-              final todoItem = _repository.todoListByStatus(_currentTab)[index];
+            itemBuilder: (BuildContext context, int index) {
+              final TodoItem todoItem = _repository.todoListByStatus(_currentTab)[index];
               return Dismissible(
                 key: Key(todoItem.id.toString()),
-                onDismissed: (direction) {
+                onDismissed: (DismissDirection direction) {
                   setState(() {
                     todoItem.updateStatus();
                   });
@@ -55,8 +55,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 background: Container(color: Colors.red),
                 child: ListTile(
                   title:
-                      new Text(todoItem.id.toString() + ": " + todoItem.title),
-                  trailing: new Text(todoItem.status.toString()),
+                      Text(todoItem.id.toString() + ': ' + todoItem.title),
+                  trailing: Text(todoItem.status.toString()),
                   onTap: () => _editTodo(todoItem.id),
                 ),
               );
@@ -65,19 +65,19 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: _addNewTodo,
         tooltip: 'Increment',
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
       bottomNavigationBar: BottomNavigationBar(
           onTap: onTabTapped,
           currentIndex: _currentTab.index,
-          items: [
+          items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: new Icon(Icons.sentiment_neutral),
-              title: new Text('ready'),
+              icon: Icon(Icons.sentiment_neutral),
+              title: Text('ready'),
             ),
             BottomNavigationBarItem(
-              icon: new Icon(Icons.sentiment_satisfied),
-              title: new Text('doing'),
+              icon: Icon(Icons.sentiment_satisfied),
+              title: Text('doing'),
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.sentiment_very_satisfied), title: Text('done'))
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _repository.load().then((onValue) {
+    _repository.load().then((bool onValue) {
       if (onValue) {
         setState(() {
           _repository = TodoRepository();
@@ -106,8 +106,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _editTodo(int id) {
     Navigator.push(
       context,
-      MaterialPageRoute<Null>(
-          builder: (context) =>
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
               NewTodoPage(pageInfo: TodoDetailInfo(DetailPageState.edit, id))),
     );
   }
@@ -115,8 +115,8 @@ class _MyHomePageState extends State<MyHomePage> {
   void _addNewTodo() {
     Navigator.push(
       context,
-      MaterialPageRoute<Null>(
-          builder: (context) =>
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
               NewTodoPage(pageInfo: TodoDetailInfo(DetailPageState.create, 0))),
     );
   }
