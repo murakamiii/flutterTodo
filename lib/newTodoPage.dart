@@ -5,31 +5,31 @@ import './repository/TodoRepository.dart';
 enum DetailPageState { create, edit }
 
 class TodoDetailInfo {
+  TodoDetailInfo(this.pageState, this.id);
+
   DetailPageState pageState;
   int id;
-
-  TodoDetailInfo(this.pageState, this.id);
 }
 
 class DetailPresenter {
+  DetailPresenter(TodoDetailInfo info) {
+    pageTitle = info.pageState == DetailPageState.create ? '新規作成' : '編集';
+    initTitle = info.pageState == DetailPageState.create
+        ? ''
+        : TodoRepository().getItemById(info.id).title;
+    buttonTitle =
+        info.pageState == DetailPageState.create ? '追加する' : '変更する';
+    editId = info.id;
+  }
+
   String pageTitle;
   String initTitle;
   String buttonTitle;
   int editId;
-
-  DetailPresenter(TodoDetailInfo info) {
-    this.pageTitle = info.pageState == DetailPageState.create ? "新規作成" : "編集";
-    this.initTitle = info.pageState == DetailPageState.create
-        ? ""
-        : TodoRepository().getItemById(info.id).title;
-    this.buttonTitle =
-        info.pageState == DetailPageState.create ? "追加する" : "変更する";
-    this.editId = info.id;
-  }
 }
 
 class NewTodoPage extends StatefulWidget {
-  NewTodoPage({Key key, this.title, @required this.pageInfo}) : super(key: key);
+  const NewTodoPage({Key key, this.title, @required this.pageInfo}) : super(key: key);
 
   final String title;
   final TodoDetailInfo pageInfo;
@@ -39,7 +39,7 @@ class NewTodoPage extends StatefulWidget {
 }
 
 class _NewTodoPageState extends State<NewTodoPage> {
-  TodoRepository _repository = TodoRepository();
+  final TodoRepository _repository = TodoRepository();
   TextEditingController _controller;
   DetailPresenter _presenter;
 
@@ -58,20 +58,20 @@ class _NewTodoPageState extends State<NewTodoPage> {
         ),
         resizeToAvoidBottomPadding: false,
         body: Container(
-          margin: EdgeInsets.fromLTRB(16, 16, 16, 160),
+          margin: const EdgeInsets.fromLTRB(16, 16, 16, 160),
           child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(
-              "やること：",
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
+            const Text(
+              'やること：',
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
             TextField(
-              decoration: InputDecoration(
-                  hintText: "やること",
+              decoration: const InputDecoration(
+                  hintText: 'やること',
                   contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 16)),
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+              style: const TextStyle(fontSize: 20, color: Colors.black87),
               controller: _controller,
             ),
             RaisedButton(
