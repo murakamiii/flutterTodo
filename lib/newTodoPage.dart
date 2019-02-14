@@ -61,17 +61,17 @@ class _NewTodoPageState extends State<NewTodoPage> {
           margin: const EdgeInsets.fromLTRB(16, 16, 16, 160),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: <Widget>[
-            Text(
+            const Text(
               'やること：',
               style: TextStyle(
                 fontSize: 16,
               ),
             ),
             TextField(
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                   hintText: 'やること',
-                  contentPadding: const EdgeInsets.fromLTRB(8, 12, 8, 16)),
-              style: TextStyle(fontSize: 20, color: Colors.black87),
+                  contentPadding: EdgeInsets.fromLTRB(8, 12, 8, 16)),
+              style: const TextStyle(fontSize: 20, color: Colors.black87),
               controller: _controller,
             ),
             RaisedButton(
