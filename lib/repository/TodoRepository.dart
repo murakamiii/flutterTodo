@@ -18,7 +18,7 @@ class TodoRepository {
   static final TodoRepository _sharedInstance = TodoRepository._internal();
 
   Future<SharedPreferences> _pref;
-  List<TodoItem> _todoList = List<TodoItem>(0);
+  List<TodoItem> _todoList = List<TodoItem>();
   int _maxId() {
     return _todoList.isNotEmpty
         ? _todoList.map((TodoItem item) => item.id).reduce(max)
